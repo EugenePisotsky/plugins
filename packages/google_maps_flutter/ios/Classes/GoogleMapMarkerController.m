@@ -69,7 +69,7 @@ static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NS
     CLLocationCoordinate2D newCoodinate = position;
     
     _marker.groundAnchor = CGPointMake(0.5, 0.5);
-    _marker.rotation = [self getHeadingForDirectionFromCoordinate:oldCoodinate toCoordinate:newCoodinate]; //found bearing value by calculation when marker add
+    // _marker.rotation = [self getHeadingForDirectionFromCoordinate:oldCoodinate toCoordinate:newCoodinate]; //found bearing value by calculation when marker add
     // _marker.position = oldCoodinate; //this can be old position to make car movement to new position
     _marker.map = _mapView;
     
