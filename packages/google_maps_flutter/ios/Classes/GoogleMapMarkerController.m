@@ -64,9 +64,9 @@ static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NS
 - (void)setPosition:(CLLocationCoordinate2D)position {
   _marker.position = position;
 }
-- (void)setPositionAnimated:(CLLocationCoordinate2D*)position duration:(float*)duration {
+- (void)setPositionAnimated:(CLLocationCoordinate2D)position duration:(float)duration {
     CLLocationCoordinate2D oldCoodinate = _marker.position;
-    CLLocationCoordinate2D* newCoodinate = position;
+    CLLocationCoordinate2D newCoodinate = position;
     
     _marker.groundAnchor = CGPointMake(0.5, 0.5);
     _marker.rotation = [self getHeadingForDirectionFromCoordinate:oldCoodinate toCoordinate:newCoodinate]; //found bearing value by calculation when marker add
@@ -75,7 +75,7 @@ static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NS
     
     //marker movement animation
     [CATransaction begin];
-    [CATransaction setValue:[NSNumber* numberWithFloat:duration] forKey:kCATransactionAnimationDuration];
+    [CATransaction setValue:[NSNumber numberWithFloat:duration] forKey:kCATransactionAnimationDuration];
     [CATransaction setCompletionBlock:^{
         // _marker.groundAnchor = CGPointMake(0.5, 0.5);
         // _marker.rotation = [[data valueForKey:@"bearing"] doubleValue]; //New bearing value from backend after car movement is done
@@ -196,8 +196,8 @@ static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictio
 static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictionary* data) {
     NSDictionary* pos = data[@"animatedPosition"];
     if (pos) {
-        NSArray* position = pos[@"position"];
-        NSNumber* duration = pos[@"duration"];
+        NSArray position = pos[@"position"];
+        NSNumber duration = pos[@"duration"];
         
         [sink setPositionAnimated:ToLocation(position) duration:ToDouble(duration)];
     }
