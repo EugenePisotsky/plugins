@@ -64,7 +64,7 @@ static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NS
 - (void)setPosition:(CLLocationCoordinate2D)position {
   _marker.position = position;
 }
-- (void)setPositionAnimated:(CLLocationCoordinate2D)position duration:(float)duration {
+- (void)setPositionAnimated:(CLLocationCoordinate2D)position duration:(float)duration rotationDuration:(float)rotationDuration {
     CLLocationCoordinate2D oldCoodinate = _marker.position;
     CLLocationCoordinate2D newCoodinate = position;
     
@@ -88,7 +88,7 @@ static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NS
     [CATransaction commit];
     
     [CATransaction begin];
-    [CATransaction setValue:[NSNumber numberWithFloat:2] forKey:kCATransactionAnimationDuration];
+    [CATransaction setValue:[NSNumber numberWithFloat:rotationDuration] forKey:kCATransactionAnimationDuration];
     [CATransaction setCompletionBlock:^{
         // _marker.groundAnchor = CGPointMake(0.5, 0.5);
         // _marker.rotation = [[data valueForKey:@"bearing"] doubleValue]; //New bearing value from backend after car movement is done
@@ -208,8 +208,9 @@ static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NS
     if (pos) {
         NSArray* position = pos[@"position"];
         NSNumber* duration = pos[@"duration"];
+        NSNumber* rotationDuration = pos[@"rotationDuration"];
         
-        [sink setPositionAnimated:ToLocation(position) duration:ToDouble(duration)];
+        [sink setPositionAnimated:ToLocation(position) duration:ToDouble(duration) rotationDuration:ToDouble(rotationDuration)];
     }
 }
 

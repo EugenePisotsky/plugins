@@ -20,7 +20,7 @@
 - (void)setInfoWindowAnchor:(CGPoint)anchor;
 - (void)setInfoWindowTitle:(NSString*)title snippet:(NSString*)snippet;
 - (void)setPosition:(CLLocationCoordinate2D)position;
-- (void)setPositionAnimated:(CLLocationCoordinate2D)position duration:(float)duration;
+- (void)setPositionAnimated:(CLLocationCoordinate2D)position duration:(float)duration rotationDuration:(float)rotationDuration;
 - (void)setRotation:(CLLocationDegrees)rotation;
 - (void)setVisible:(BOOL)visible;
 - (void)setZIndex:(int)zIndex;
