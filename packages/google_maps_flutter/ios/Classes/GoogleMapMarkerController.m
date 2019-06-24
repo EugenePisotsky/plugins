@@ -7,6 +7,7 @@
 
 static UIImage* ExtractIcon(NSObject<FlutterPluginRegistrar>* registrar, NSArray* icon);
 static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictionary* data);
+static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictionary* data);
 
 @implementation FLTGoogleMapMarkerController {
   GMSMarker* _marker;
@@ -65,7 +66,7 @@ static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictio
 }
 - (void)setPositionAnimated:(CLLocationCoordinate2D*)position duration:(float*)duration {
     CLLocationCoordinate2D oldCoodinate = _marker.position;
-    CLLocationCoordinate2D newCoodinate = position;
+    CLLocationCoordinate2D* newCoodinate = position;
     
     _marker.groundAnchor = CGPointMake(0.5, 0.5);
     _marker.rotation = [self getHeadingForDirectionFromCoordinate:oldCoodinate toCoordinate:newCoodinate]; //found bearing value by calculation when marker add
@@ -74,7 +75,7 @@ static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictio
     
     //marker movement animation
     [CATransaction begin];
-    [CATransaction setValue:[NSNumber numberWithFloat:duration] forKey:kCATransactionAnimationDuration];
+    [CATransaction setValue:[NSNumber* numberWithFloat:duration] forKey:kCATransactionAnimationDuration];
     [CATransaction setCompletionBlock:^{
         // _marker.groundAnchor = CGPointMake(0.5, 0.5);
         // _marker.rotation = [[data valueForKey:@"bearing"] doubleValue]; //New bearing value from backend after car movement is done
