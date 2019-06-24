@@ -63,6 +63,31 @@ static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictio
 - (void)setPosition:(CLLocationCoordinate2D)position {
   _marker.position = position;
 }
+- (void)setPositionAnimated:(CLLocationCoordinate2D)position duration(float)duration {
+    _marker.position = position;
+    
+    CLLocationCoordinate2D oldCoodinate = _marker.position;
+    CLLocationCoordinate2D newCoodinate = position;
+    
+    _marker.groundAnchor = CGPointMake(0.5, 0.5);
+    _marker.rotation = [self getHeadingForDirectionFromCoordinate:oldCoodinate toCoordinate:newCoodinate]; //found bearing value by calculation when marker add
+    _marker.position = oldCoodinate; //this can be old position to make car movement to new position
+    _marker.map = _mapView;
+    
+    //marker movement animation
+    [CATransaction begin];
+    [CATransaction setValue:[NSNumber numberWithFloat:duration] forKey:kCATransactionAnimationDuration];
+    [CATransaction setCompletionBlock:^{
+        _marker.groundAnchor = CGPointMake(0.5, 0.5);
+        _marker.rotation = [[data valueForKey:@"bearing"] doubleValue]; //New bearing value from backend after car movement is done
+    }];
+    
+    _marker.position = newCoodinate; //this can be new position after car moved from old position to new position with animation
+    _marker.map = _mapView;
+    _marker.groundAnchor = CGPointMake(0.5, 0.5);
+    _marker.rotation = [self getHeadingForDirectionFromCoordinate:oldCoodinate toCoordinate:newCoodinate]; //found bearing value by calculation
+    [CATransaction commit];
+}
 - (void)setRotation:(CLLocationDegrees)rotation {
   _marker.rotation = rotation;
 }
@@ -71,6 +96,21 @@ static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictio
 }
 - (void)setZIndex:(int)zIndex {
   _marker.zIndex = zIndex;
+}
+- (float)getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc
+{
+    float fLat = degreesToRadians(fromLoc.latitude);
+    float fLng = degreesToRadians(fromLoc.longitude);
+    float tLat = degreesToRadians(toLoc.latitude);
+    float tLng = degreesToRadians(toLoc.longitude);
+    
+    float degree = radiansToDegrees(atan2(sin(tLng-fLng)*cos(tLat), cos(fLat)*sin(tLat)-sin(fLat)*cos(tLat)*cos(tLng-fLng)));
+    
+    if (degree >= 0) {
+        return degree;
+    } else {
+        return 360+degree;
+    }
 }
 @end
 
@@ -135,6 +175,11 @@ static void InterpretMarkerOptions(NSDictionary* data, id<FLTGoogleMapMarkerOpti
   NSNumber* zIndex = data[@"zIndex"];
   if (zIndex) {
     [sink setZIndex:ToInt(zIndex)];
+  }
+  NSArray* positionAnimated = data[@"positionAnimated"];
+  NSNumber* positionAnimatedDuration = data[@"positionAnimatedDuration"];
+  if (positionAnimated) {
+    [sink setPositionAnimated:ToLocation(positionAnimated) duration:ToDouble(positionAnimatedDuration)];
   }
 }
 

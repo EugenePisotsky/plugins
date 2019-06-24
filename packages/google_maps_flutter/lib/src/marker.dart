@@ -122,6 +122,14 @@ class MarkerId {
   }
 }
 
+@immutable
+class AnimatedPosition {
+  AnimatedPosition(this.position, this.duration);
+
+  final LatLng position;
+  final double duration;
+}
+
 /// Marks a geographical location on the map.
 ///
 /// A marker icon is drawn oriented against the device's screen rather than
@@ -156,6 +164,7 @@ class Marker {
     this.icon = BitmapDescriptor.defaultMarker,
     this.infoWindow = InfoWindow.noText,
     this.position = const LatLng(0.0, 0.0),
+    this.animatedPosition,
     this.rotation = 0.0,
     this.visible = true,
     this.zIndex = 0.0,
@@ -216,6 +225,8 @@ class Marker {
   /// Callbacks to receive tap events for markers placed on this map.
   final VoidCallback onTap;
 
+  final AnimatedPosition animatedPosition;
+
   /// Creates a new [Marker] object whose values are the same as this instance,
   /// unless overwritten by the specified parameters.
   Marker copyWith({
@@ -227,6 +238,7 @@ class Marker {
     BitmapDescriptor iconParam,
     InfoWindow infoWindowParam,
     LatLng positionParam,
+    AnimatedPosition animatedPositionParam,
     double rotationParam,
     bool visibleParam,
     double zIndexParam,
@@ -242,6 +254,7 @@ class Marker {
       icon: iconParam ?? icon,
       infoWindow: infoWindowParam ?? infoWindow,
       position: positionParam ?? position,
+      animatedPosition: animatedPositionParam,
       rotation: rotationParam ?? rotation,
       visible: visibleParam ?? visible,
       zIndex: zIndexParam ?? zIndex,
@@ -270,6 +283,12 @@ class Marker {
     addIfPresent('rotation', rotation);
     addIfPresent('visible', visible);
     addIfPresent('zIndex', zIndex);
+
+    if (animatedPosition != null) {
+      addIfPresent('animatedPosition', animatedPosition.position?._toJson());
+      addIfPresent('animatedPositionDuration', animatedPosition.duration);
+    }
+
     return json;
   }
 

@@ -6,6 +6,9 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "GoogleMapController.h"
 
+#define degreesToRadians(x) (M_PI * x / 180.0)
+#define radiansToDegrees(x) (x * 180.0 / M_PI)
+
 // Defines marker UI options writable from Flutter.
 @protocol FLTGoogleMapMarkerOptionsSink
 - (void)setAlpha:(float)alpha;
