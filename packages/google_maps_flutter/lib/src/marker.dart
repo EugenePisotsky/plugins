@@ -124,7 +124,7 @@ class MarkerId {
 
 @immutable
 class AnimatedPosition {
-  AnimatedPosition(this.position, this.duration, this.rotationDuration);
+  AnimatedPosition({ this.position, this.duration, this.rotationDuration });
 
   final LatLng position;
   final double duration;
@@ -141,7 +141,7 @@ class AnimatedPosition {
 
     addIfPresent('position', position?._toJson());
     addIfPresent('duration', duration);
-    addIfPresent('rotationDuration', duration);
+    addIfPresent('rotationDuration', rotationDuration);
 
     return json;
   }
