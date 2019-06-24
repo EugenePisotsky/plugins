@@ -194,9 +194,9 @@ static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictio
 
 static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictionary* data) {
     NSDictionary* pos = data[@"animatedPosition"];
-    if (infoWindow) {
-        NSArray* position = pos[@"location"];
-        NSNumber* duration = pos[@"duration"];
+    if (pos) {
+        NSArray position = pos[@"position"];
+        NSNumber duration = pos[@"duration"];
         
         [sink setPositionAnimated:ToLocation(position) duration:ToDouble(duration)];
     }
