@@ -84,6 +84,16 @@ static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NS
     _marker.position = newCoodinate; //this can be new position after car moved from old position to new position with animation
     // _marker.map = _mapView;
     _marker.groundAnchor = CGPointMake(0.5, 0.5);
+    // _marker.rotation = [self getHeadingForDirectionFromCoordinate:oldCoodinate toCoordinate:newCoodinate]; //found bearing value by calculation
+    [CATransaction commit];
+    
+    [CATransaction begin];
+    [CATransaction setValue:[NSNumber numberWithFloat:2] forKey:kCATransactionAnimationDuration];
+    [CATransaction setCompletionBlock:^{
+        // _marker.groundAnchor = CGPointMake(0.5, 0.5);
+        // _marker.rotation = [[data valueForKey:@"bearing"] doubleValue]; //New bearing value from backend after car movement is done
+    }];
+    
     _marker.rotation = [self getHeadingForDirectionFromCoordinate:oldCoodinate toCoordinate:newCoodinate]; //found bearing value by calculation
     [CATransaction commit];
 }
