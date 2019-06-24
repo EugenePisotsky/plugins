@@ -64,14 +64,12 @@ static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictio
   _marker.position = position;
 }
 - (void)setPositionAnimated:(CLLocationCoordinate2D)position duration:(float)duration {
-    _marker.position = position;
-    
     CLLocationCoordinate2D oldCoodinate = _marker.position;
     CLLocationCoordinate2D newCoodinate = position;
     
     _marker.groundAnchor = CGPointMake(0.5, 0.5);
     _marker.rotation = [self getHeadingForDirectionFromCoordinate:oldCoodinate toCoordinate:newCoodinate]; //found bearing value by calculation when marker add
-    _marker.position = oldCoodinate; //this can be old position to make car movement to new position
+    // _marker.position = oldCoodinate; //this can be old position to make car movement to new position
     _marker.map = _mapView;
     
     //marker movement animation
