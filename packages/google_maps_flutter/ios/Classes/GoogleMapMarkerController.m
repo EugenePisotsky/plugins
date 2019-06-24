@@ -81,7 +81,7 @@ static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictio
     }];
     
     _marker.position = newCoodinate; //this can be new position after car moved from old position to new position with animation
-    _marker.map = _mapView;
+    // _marker.map = _mapView;
     _marker.groundAnchor = CGPointMake(0.5, 0.5);
     _marker.rotation = [self getHeadingForDirectionFromCoordinate:oldCoodinate toCoordinate:newCoodinate]; //found bearing value by calculation
     [CATransaction commit];
@@ -174,11 +174,7 @@ static void InterpretMarkerOptions(NSDictionary* data, id<FLTGoogleMapMarkerOpti
   if (zIndex) {
     [sink setZIndex:ToInt(zIndex)];
   }
-  NSArray* positionAnimated = data[@"positionAnimated"];
-  NSNumber* positionAnimatedDuration = data[@"positionAnimatedDuration"];
-  if (positionAnimated) {
-    [sink setPositionAnimated:ToLocation(positionAnimated) duration:ToDouble(positionAnimatedDuration)];
-  }
+  InterpretAnimatedPosition(sink, data);
 }
 
 static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictionary* data) {
@@ -194,6 +190,16 @@ static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictio
       [sink setInfoWindowAnchor:ToPoint(infoWindowAnchor)];
     }
   }
+}
+
+static void InterpretAnimatedPosition(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictionary* data) {
+    NSDictionary* pos = data[@"animatedPosition"];
+    if (infoWindow) {
+        NSArray* position = pos[@"location"];
+        NSNumber* duration = pos[@"duration"];
+        
+        [sink setPositionAnimated:ToLocation(position) duration:ToDouble(duration)];
+    }
 }
 
 static UIImage* scaleImage(UIImage* image, NSNumber* scaleParam) {

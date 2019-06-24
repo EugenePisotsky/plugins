@@ -128,6 +128,21 @@ class AnimatedPosition {
 
   final LatLng position;
   final double duration;
+
+  dynamic _toJson() {
+    final Map<String, dynamic> json = <String, dynamic>{};
+
+    void addIfPresent(String fieldName, dynamic value) {
+      if (value != null) {
+        json[fieldName] = value;
+      }
+    }
+
+    addIfPresent('position', position?._toJson());
+    addIfPresent('duration', duration);
+
+    return json;
+  }
 }
 
 /// Marks a geographical location on the map.
@@ -280,14 +295,10 @@ class Marker {
     addIfPresent('icon', icon?._toJson());
     addIfPresent('infoWindow', infoWindow?._toJson());
     addIfPresent('position', position?._toJson());
+    addIfPresent('animatedPosition', animatedPosition?._toJson());
     addIfPresent('rotation', rotation);
     addIfPresent('visible', visible);
     addIfPresent('zIndex', zIndex);
-
-    if (animatedPosition != null) {
-      addIfPresent('animatedPosition', animatedPosition.position?._toJson());
-      addIfPresent('animatedPositionDuration', animatedPosition.duration);
-    }
 
     return json;
   }
