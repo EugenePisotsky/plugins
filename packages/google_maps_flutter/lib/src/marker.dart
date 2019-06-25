@@ -124,11 +124,10 @@ class MarkerId {
 
 @immutable
 class AnimatedPosition {
-  AnimatedPosition({ this.position, this.duration, this.rotationDuration });
+  AnimatedPosition({ this.position, this.duration });
 
   final LatLng position;
   final double duration;
-  final double rotationDuration;
 
   dynamic _toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
@@ -141,7 +140,29 @@ class AnimatedPosition {
 
     addIfPresent('position', position?._toJson());
     addIfPresent('duration', duration);
-    addIfPresent('rotationDuration', rotationDuration);
+
+    return json;
+  }
+}
+
+@immutable
+class AnimatedRotation {
+  AnimatedRotation({ this.rotation, this.duration });
+
+  final double rotation;
+  final double duration;
+
+  dynamic _toJson() {
+    final Map<String, dynamic> json = <String, dynamic>{};
+
+    void addIfPresent(String fieldName, dynamic value) {
+      if (value != null) {
+        json[fieldName] = value;
+      }
+    }
+
+    addIfPresent('rotation', rotation);
+    addIfPresent('duration', duration);
 
     return json;
   }
@@ -182,6 +203,7 @@ class Marker {
     this.infoWindow = InfoWindow.noText,
     this.position = const LatLng(0.0, 0.0),
     this.animatedPosition,
+    this.animatedRotation,
     this.rotation = 0.0,
     this.visible = true,
     this.zIndex = 0.0,
@@ -243,6 +265,7 @@ class Marker {
   final VoidCallback onTap;
 
   final AnimatedPosition animatedPosition;
+  final AnimatedRotation animatedRotation;
 
   /// Creates a new [Marker] object whose values are the same as this instance,
   /// unless overwritten by the specified parameters.
@@ -256,6 +279,7 @@ class Marker {
     InfoWindow infoWindowParam,
     LatLng positionParam,
     AnimatedPosition animatedPositionParam,
+    AnimatedRotation animatedRotationParam,
     double rotationParam,
     bool visibleParam,
     double zIndexParam,
@@ -272,6 +296,7 @@ class Marker {
       infoWindow: infoWindowParam ?? infoWindow,
       position: positionParam ?? position,
       animatedPosition: animatedPositionParam,
+      animatedRotation: animatedRotationParam,
       rotation: rotationParam ?? rotation,
       visible: visibleParam ?? visible,
       zIndex: zIndexParam ?? zIndex,
@@ -298,6 +323,7 @@ class Marker {
     addIfPresent('infoWindow', infoWindow?._toJson());
     addIfPresent('position', position?._toJson());
     addIfPresent('animatedPosition', animatedPosition?._toJson());
+    addIfPresent('animatedRotation', animatedRotation?._toJson());
     addIfPresent('rotation', rotation);
     addIfPresent('visible', visible);
     addIfPresent('zIndex', zIndex);
