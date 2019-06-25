@@ -189,6 +189,7 @@ static void InterpretMarkerOptions(NSDictionary* data, id<FLTGoogleMapMarkerOpti
     [sink setZIndex:ToInt(zIndex)];
   }
   InterpretAnimatedPosition(sink, data);
+  InterpretAnimatedRotation(sink, data);
 }
 
 static void InterpretInfoWindow(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictionary* data) {
