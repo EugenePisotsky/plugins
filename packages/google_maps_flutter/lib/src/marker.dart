@@ -168,6 +168,29 @@ class AnimatedRotation {
   }
 }
 
+@immutable
+class AnimatedAnchor {
+  AnimatedAnchor({ this.anchor, this.duration });
+
+  final Offset anchor;
+  final double duration;
+
+  dynamic _toJson() {
+    final Map<String, dynamic> json = <String, dynamic>{};
+
+    void addIfPresent(String fieldName, dynamic value) {
+      if (value != null) {
+        json[fieldName] = value;
+      }
+    }
+
+    addIfPresent('anchor', _offsetToJson(anchor));
+    addIfPresent('duration', duration);
+
+    return json;
+  }
+}
+
 /// Marks a geographical location on the map.
 ///
 /// A marker icon is drawn oriented against the device's screen rather than
@@ -204,6 +227,7 @@ class Marker {
     this.position = const LatLng(0.0, 0.0),
     this.animatedPosition,
     this.animatedRotation,
+    this.animatedAnchor,
     this.rotation = 0.0,
     this.visible = true,
     this.zIndex = 0.0,
@@ -266,6 +290,7 @@ class Marker {
 
   final AnimatedPosition animatedPosition;
   final AnimatedRotation animatedRotation;
+  final AnimatedAnchor animatedAnchor;
 
   /// Creates a new [Marker] object whose values are the same as this instance,
   /// unless overwritten by the specified parameters.
@@ -280,6 +305,7 @@ class Marker {
     LatLng positionParam,
     AnimatedPosition animatedPositionParam,
     AnimatedRotation animatedRotationParam,
+    AnimatedAnchor animatedAnchorParam,
     double rotationParam,
     bool visibleParam,
     double zIndexParam,
@@ -297,6 +323,7 @@ class Marker {
       position: positionParam ?? position,
       animatedPosition: animatedPositionParam,
       animatedRotation: animatedRotationParam,
+      animatedAnchor: animatedAnchorParam,
       rotation: rotationParam ?? rotation,
       visible: visibleParam ?? visible,
       zIndex: zIndexParam ?? zIndex,
@@ -324,6 +351,7 @@ class Marker {
     addIfPresent('position', position?._toJson());
     addIfPresent('animatedPosition', animatedPosition?._toJson());
     addIfPresent('animatedRotation', animatedRotation?._toJson());
+    addIfPresent('animatedAnchor', animatedAnchor?._toJson());
     addIfPresent('rotation', rotation);
     addIfPresent('visible', visible);
     addIfPresent('zIndex', zIndex);

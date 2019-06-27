@@ -22,6 +22,7 @@
 - (void)setPosition:(CLLocationCoordinate2D)position;
 - (void)setPositionAnimated:(CLLocationCoordinate2D)position duration:(float)duration;
 - (void)setRotationAnimated:(float)rotation duration:(float)duration;
+- (void)setAnchorAnimated:(CGPoint)anchor duration:(float)duration;
 - (void)setRotation:(CLLocationDegrees)rotation;
 - (void)setVisible:(BOOL)visible;
 - (void)setZIndex:(int)zIndex;
