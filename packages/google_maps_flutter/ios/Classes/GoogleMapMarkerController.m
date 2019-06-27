@@ -232,7 +232,7 @@ static void InterpretAnimatedRotation(id<FLTGoogleMapMarkerOptionsSink> sink, NS
 static void InterpretAnimatedAnchor(id<FLTGoogleMapMarkerOptionsSink> sink, NSDictionary* data) {
     NSDictionary* pos = data[@"animatedAnchor"];
     if (pos) {
-        NSArray* rotation = pos[@"anchor"];
+        NSArray* anchor = pos[@"anchor"];
         NSNumber* duration = pos[@"duration"];
         
         [sink setAnchorAnimated:ToPoint(anchor) duration:ToDouble(duration)];
