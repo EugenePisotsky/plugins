@@ -393,10 +393,17 @@ class Convert {
   private static void interpretAnimatedAnchorOptions(
           MarkerOptionsSink sink, Map<String, Object> animatedAnchor) {
     Object anchor = animatedAnchor.get("anchor");
-    Object duration = toFloat(animatedAnchor.get("duration"));
+    Object prevAnchor = animatedAnchor.get("prevAnchor");
 
     final List<?> anchorData = toList(anchor);
-    sink.setAnimatedAnchor(toFloat(anchorData.get(0)), toFloat(anchorData.get(1)), duration);
+    final List<?> prevAnchorData = toList(prevAnchor);
+    sink.setAnimatedAnchor(
+            toFloat(prevAnchorData.get(0)),
+            toFloat(prevAnchorData.get(1)),
+            toFloat(anchorData.get(0)),
+            toFloat(anchorData.get(1)),
+            toFloat(animatedAnchor.get("duration"))
+    );
   }
 
   static String interpretPolygonOptions(Object o, PolygonOptionsSink sink) {

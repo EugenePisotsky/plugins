@@ -66,9 +66,9 @@ class MarkerController implements MarkerOptionsSink {
   }
 
   @Override
-  public void setAnimatedAnchor(float u, float v, float duration) {
+  public void setAnimatedAnchor(float pu, float pv, float u, float v, float duration) {
     ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
-    valueAnimator.setDuration(duration * 1000);
+    valueAnimator.setDuration((long) (duration * 1000));
     valueAnimator.setInterpolator(new LinearInterpolator());
 
     final AnchorInterpolatorNew anchorInterpolator = new AnchorInterpolatorNew.LinearFixed();
@@ -79,8 +79,8 @@ class MarkerController implements MarkerOptionsSink {
         try {
           float fr = animation.getAnimatedFraction();
 
-          float nextU = anchorInterpolator.interpolate(fr, marker.getAnchorU(), u);
-          float nextV = anchorInterpolator.interpolate(fr, marker.getAnchorV(), v);
+          float nextU = anchorInterpolator.interpolate(fr, pu, u);
+          float nextV = anchorInterpolator.interpolate(fr, pv, v);
 
           marker.setAnchor(nextU, nextV);
         } catch (Exception ex) {

@@ -170,8 +170,9 @@ class AnimatedRotation {
 
 @immutable
 class AnimatedAnchor {
-  AnimatedAnchor({ this.anchor, this.duration });
+  AnimatedAnchor({ this.prevAnchor, this.anchor, this.duration });
 
+  final Offset prevAnchor;
   final Offset anchor;
   final double duration;
 
@@ -184,6 +185,7 @@ class AnimatedAnchor {
       }
     }
 
+    addIfPresent('prevAnchor', _offsetToJson(prevAnchor));
     addIfPresent('anchor', _offsetToJson(anchor));
     addIfPresent('duration', duration);
 

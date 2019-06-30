@@ -23,7 +23,7 @@ interface MarkerOptionsSink {
 
   void setInfoWindowAnchor(float u, float v);
 
-  void setAnimatedAnchor(float u, float v, float duration);
+  void setAnimatedAnchor(float pu, float pv, float u, float v, float duration);
 
   void setInfoWindowText(String title, String snippet);
 
