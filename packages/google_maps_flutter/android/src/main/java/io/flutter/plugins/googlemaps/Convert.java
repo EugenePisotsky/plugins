@@ -347,6 +347,10 @@ class Convert {
     if (infoWindow != null) {
       interpretInfoWindowOptions(sink, (Map<String, Object>) infoWindow);
     }
+    final Object animatedAnchor = data.get("animatedAnchor");
+    if (animatedAnchor != null) {
+      interpretAnimatedAnchorOptions(sink, (Map<String, Object>) animatedAnchor);
+    }
     final Object position = data.get("position");
     if (position != null) {
       sink.setPosition(toLatLng(position));
@@ -384,6 +388,15 @@ class Convert {
       final List<?> anchorData = toList(infoWindowAnchor);
       sink.setInfoWindowAnchor(toFloat(anchorData.get(0)), toFloat(anchorData.get(1)));
     }
+  }
+
+  private static void interpretAnimatedAnchorOptions(
+          MarkerOptionsSink sink, Map<String, Object> animatedAnchor) {
+    Object anchor = animatedAnchor.get("anchor");
+    Object duration = toFloat(animatedAnchor.get("duration"));
+
+    final List<?> anchorData = toList(anchor);
+    sink.setAnimatedAnchor(toFloat(anchorData.get(0)), toFloat(anchorData.get(1)), duration);
   }
 
   static String interpretPolygonOptions(Object o, PolygonOptionsSink sink) {

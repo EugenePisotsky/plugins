@@ -8,6 +8,11 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
+import android.support.v4.animation.FastOutLinearInInterpolator;
+
 /** Controller of a single Marker on the map. */
 class MarkerController implements MarkerOptionsSink {
 
@@ -61,6 +66,38 @@ class MarkerController implements MarkerOptionsSink {
   }
 
   @Override
+  public void setAnimatedAnchor(float u, float v, float duration) {
+    ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
+    valueAnimator.setDuration(duration * 1000);
+    valueAnimator.setInterpolator(new FastOutLinearInInterpolator());
+
+    final AnchorInterpolatorNew anchorInterpolator = new AnchorInterpolatorNew.LinearFixed();
+
+    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+      @Override
+      public void onAnimationUpdate(ValueAnimator animation) {
+        try {
+          float fr = animation.getAnimatedFraction();
+
+          float nextU = anchorInterpolator.interpolate(fr, marker.getAnchorU(), u);
+          float nextV = anchorInterpolator.interpolate(fr, marker.getAnchorV(), v);
+
+          marker.setAnchor(nextU, nextV);
+        } catch (Exception ex) {
+          //I don't care atm..
+        }
+      }
+    });
+    valueAnimator.addListener(new AnimatorListenerAdapter() {
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        super.onAnimationEnd(animation);
+      }
+    });
+    valueAnimator.start();
+  }
+
+  @Override
   public void setInfoWindowText(String title, String snippet) {
     marker.setTitle(title);
     marker.setSnippet(snippet);
@@ -92,5 +129,18 @@ class MarkerController implements MarkerOptionsSink {
 
   boolean consumeTapEvents() {
     return consumeTapEvents;
+  }
+
+  private interface AnchorInterpolatorNew {
+    float interpolate(float fraction, float a, float b);
+
+    class LinearFixed implements AnchorInterpolatorNew {
+      @Override
+      public float interpolate(float fraction, float a, float b) {
+        double value = (b - a) * fraction + a;
+
+        return (float) value;
+      }
+    }
   }
 }
