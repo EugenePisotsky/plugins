@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.Marker;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 /** Controller of a single Marker on the map. */
 class MarkerController implements MarkerOptionsSink {
@@ -69,7 +69,7 @@ class MarkerController implements MarkerOptionsSink {
   public void setAnimatedAnchor(final float pu, final float pv, final float u, final float v, final float duration) {
     ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
     valueAnimator.setDuration((long) (duration * 1000));
-    valueAnimator.setInterpolator(new LinearInterpolator());
+    valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
 
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
@@ -77,8 +77,8 @@ class MarkerController implements MarkerOptionsSink {
         try {
           float fr = animation.getAnimatedFraction();
 
-          float nextU = (u - pu) * fr + u;
-          float nextV = (v - pv) * fr + v;
+          float nextU = (u - pu) * fr;
+          float nextV = (v - pv) * fr;
 
           marker.setAnchor(nextU, nextV);
         } catch (Exception ex) {
