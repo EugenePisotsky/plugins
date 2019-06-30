@@ -91,8 +91,6 @@ static void InterpretAnimatedAnchor(id<FLTGoogleMapMarkerOptionsSink> sink, NSDi
     [CATransaction commit];
 }
 - (void)setAnchorAnimated:(CGPoint)anchor duration:(float)duration {
-    _marker.groundAnchor = _marker.groundAnchor;
-    
     [CATransaction begin];
     [CATransaction setValue:[NSNumber numberWithFloat:duration] forKey:kCATransactionAnimationDuration];
     [CATransaction setCompletionBlock:^{
