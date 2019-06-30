@@ -77,8 +77,8 @@ class MarkerController implements MarkerOptionsSink {
         try {
           float fr = animation.getAnimatedFraction();
 
-          float nextU = (u - pu) * fr;
-          float nextV = (v - pv) * fr;
+          float nextU = (u - pu) * fr + pu;
+          float nextV = (v - pv) * fr + pv;
 
           marker.setAnchor(nextU, nextV);
         } catch (Exception ex) {
