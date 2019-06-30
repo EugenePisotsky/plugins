@@ -66,12 +66,10 @@ class MarkerController implements MarkerOptionsSink {
   }
 
   @Override
-  public void setAnimatedAnchor(float pu, float pv, float u, float v, float duration) {
+  public void setAnimatedAnchor(final float pu, final float pv, final float u, final float v, final float duration) {
     ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
     valueAnimator.setDuration((long) (duration * 1000));
     valueAnimator.setInterpolator(new LinearInterpolator());
-
-    final AnchorInterpolatorNew anchorInterpolator = new AnchorInterpolatorNew.LinearFixed();
 
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
@@ -79,8 +77,8 @@ class MarkerController implements MarkerOptionsSink {
         try {
           float fr = animation.getAnimatedFraction();
 
-          float nextU = anchorInterpolator.interpolate(fr, pu, u);
-          float nextV = anchorInterpolator.interpolate(fr, pv, v);
+          float nextU = (u - pu) * fr + u;
+          float nextV = (v - pv) * fr + v;
 
           marker.setAnchor(nextU, nextV);
         } catch (Exception ex) {
@@ -129,18 +127,5 @@ class MarkerController implements MarkerOptionsSink {
 
   boolean consumeTapEvents() {
     return consumeTapEvents;
-  }
-
-  private interface AnchorInterpolatorNew {
-    float interpolate(float fraction, float a, float b);
-
-    class LinearFixed implements AnchorInterpolatorNew {
-      @Override
-      public float interpolate(float fraction, float a, float b) {
-        double value = (b - a) * fraction + a;
-
-        return (float) value;
-      }
-    }
   }
 }
