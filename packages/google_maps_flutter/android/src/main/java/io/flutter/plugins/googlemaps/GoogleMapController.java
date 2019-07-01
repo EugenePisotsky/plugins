@@ -157,7 +157,17 @@ final class GoogleMapController
   }
 
   private void animateCamera(CameraUpdate cameraUpdate) {
-    googleMap.animateCamera(cameraUpdate, 350);
+      googleMap.animateCamera(cameraUpdate, 350, new GoogleMap.CancelableCallback() {
+          @Override
+          public void onFinish() {
+              //
+          }
+
+          @Override
+          public void onCancel() {
+              //
+          }
+      });
   }
 
   private CameraPosition getCameraPosition() {
