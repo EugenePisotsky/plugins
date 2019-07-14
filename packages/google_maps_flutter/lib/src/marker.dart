@@ -316,7 +316,7 @@ class Marker {
     return Marker(
       markerId: markerId,
       alpha: alphaParam ?? alpha,
-      anchor: anchorParam ?? anchor,
+      anchor: anchorParam,
       consumeTapEvents: consumeTapEventsParam ?? consumeTapEvents,
       draggable: draggableParam ?? draggable,
       flat: flatParam ?? flat,
