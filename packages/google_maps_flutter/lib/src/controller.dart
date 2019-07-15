@@ -222,7 +222,9 @@ class GoogleMapController {
     final Map<String, dynamic> offset =
     await channel.invokeMapMethod<String, dynamic>(
       'map#latLngToPoint',
-      location._toJson()
+      <String, dynamic>{
+        'location': location._toJson()
+      }
     );
     final Offset offsetData = Offset(offset[0], offset[1]);
 
