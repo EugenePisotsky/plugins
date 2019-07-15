@@ -69,7 +69,7 @@ class MarkerController implements MarkerOptionsSink {
   public void setAnimatedAnchor(final float pu, final float pv, final float u, final float v, final float duration) {
     ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
     valueAnimator.setDuration((long) (duration * 1000));
-    valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator(1.2f));
+    valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
 
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
