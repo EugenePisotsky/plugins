@@ -124,10 +124,11 @@ class MarkerId {
 
 @immutable
 class AnimatedPosition {
-  AnimatedPosition({ this.position, this.duration });
+  AnimatedPosition({ this.position, this.duration, this.linear = true });
 
   final LatLng position;
   final double duration;
+  final bool linear;
 
   dynamic _toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
@@ -140,6 +141,7 @@ class AnimatedPosition {
 
     addIfPresent('position', position?._toJson());
     addIfPresent('duration', duration);
+    addIfPresent('linear', linear);
 
     return json;
   }

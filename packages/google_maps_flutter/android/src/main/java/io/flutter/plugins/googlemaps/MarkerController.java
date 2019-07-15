@@ -107,6 +107,37 @@ class MarkerController implements MarkerOptionsSink {
   }
 
   @Override
+  public void setPositionAnimated(LatLng position, float duration, boolean linear) {
+    final LatLng startPosition = marker.getPosition();
+    final LatLng endPosition = position;
+
+    final LatLngInterpolatorNew latLngInterpolator = new LatLngInterpolatorNew.LinearFixed();
+
+    ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
+    valueAnimator.setDuration((long) (duration * 1000));
+    valueAnimator.setInterpolator(linear ? new LinearInterpolator() : new AccelerateDecelerateInterpolator());
+    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+      @Override
+      public void onAnimationUpdate(ValueAnimator animation) {
+        try {
+          float v = animation.getAnimatedFraction();
+          LatLng newPosition = latLngInterpolator.interpolate(v, startPosition, endPosition);
+          marker.setPosition(newPosition);
+        } catch (Exception ex) {
+          //I don't care atm..
+        }
+      }
+    });
+    valueAnimator.addListener(new AnimatorListenerAdapter() {
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        super.onAnimationEnd(animation);
+      }
+    });
+    valueAnimator.start();
+  }
+
+  @Override
   public void setRotation(float rotation) {
     marker.setRotation(rotation);
   }
@@ -127,5 +158,23 @@ class MarkerController implements MarkerOptionsSink {
 
   boolean consumeTapEvents() {
     return consumeTapEvents;
+  }
+
+  private interface LatLngInterpolatorNew {
+    LatLng interpolate(float fraction, LatLng a, LatLng b);
+
+    class LinearFixed implements LatLngInterpolatorNew {
+      @Override
+      public LatLng interpolate(float fraction, LatLng a, LatLng b) {
+        double lat = (b.latitude - a.latitude) * fraction + a.latitude;
+        double lngDelta = b.longitude - a.longitude;
+        // Take the shortest path across the 180th meridian.
+        if (Math.abs(lngDelta) > 180) {
+          lngDelta -= Math.signum(lngDelta) * 360;
+        }
+        double lng = lngDelta * fraction + a.longitude;
+        return new LatLng(lat, lng);
+      }
+    }
   }
 }

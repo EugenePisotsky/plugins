@@ -76,6 +76,11 @@ class MarkerBuilder implements MarkerOptionsSink {
   }
 
   @Override
+  public void setPositionAnimated(LatLng position, float duration, boolean linear) {
+    // markerOptions.setAnimatedAnchor(pu, pv, u, v, duration);
+  }
+
+  @Override
   public void setRotation(float rotation) {
     markerOptions.rotation(rotation);
   }

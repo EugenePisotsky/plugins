@@ -359,6 +359,10 @@ class Convert {
     if (position != null) {
       sink.setPosition(toLatLng(position));
     }
+    final Object animatedPosition = data.get("animatedPosition");
+    if (animatedAnchor != null) {
+      interpretAnimatedPositionOptions(sink, (Map<String, Object>) animatedPosition);
+    }
     final Object rotation = data.get("rotation");
     if (rotation != null) {
       sink.setRotation(toFloat(rotation));
@@ -392,6 +396,19 @@ class Convert {
       final List<?> anchorData = toList(infoWindowAnchor);
       sink.setInfoWindowAnchor(toFloat(anchorData.get(0)), toFloat(anchorData.get(1)));
     }
+  }
+
+  private static void interpretAnimatedPositionOptions(
+          MarkerOptionsSink sink, Map<String, Object> animatedPosition) {
+    Object position = animatedPosition.get("position");
+    Object duration = animatedPosition.get("duration");
+    Object linear = animatedPosition.get("linear");
+
+    sink.setPositionAnimated(
+            toLatLng(position),
+            toFloat(duration),
+            toBoolean(linear)
+    );
   }
 
   private static void interpretAnimatedAnchorOptions(
