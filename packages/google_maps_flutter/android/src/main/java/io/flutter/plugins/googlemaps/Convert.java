@@ -201,6 +201,10 @@ class Convert {
     return Arrays.asList(latLng.latitude, latLng.longitude);
   }
 
+  static Object pointToJson(Point point) {
+        return Arrays.asList(point.x, point.y);
+    }
+
   static LatLng toLatLng(Object o) {
     final List<?> data = toList(o);
     return new LatLng(toDouble(data.get(0)), toDouble(data.get(1)));

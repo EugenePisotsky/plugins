@@ -252,7 +252,7 @@ final class GoogleMapController
       {
         if (googleMap != null) {
           Point point = googleMap.getProjection().toScreenLocation(Convert.toLatLng(call.argument("location")));
-          result.success(Arrays.asList(Double.valueOf(point.x), Double.valueOf(point.y)));
+          result.success(Convert.pointToJson(point));
         } else {
           result.error(
                   "GoogleMap uninitialized",
