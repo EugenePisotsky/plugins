@@ -360,7 +360,7 @@ class Convert {
       sink.setPosition(toLatLng(position));
     }
     final Object animatedPosition = data.get("animatedPosition");
-    if (animatedAnchor != null) {
+    if (animatedPosition != null) {
       interpretAnimatedPositionOptions(sink, (Map<String, Object>) animatedPosition);
     }
     final Object rotation = data.get("rotation");
