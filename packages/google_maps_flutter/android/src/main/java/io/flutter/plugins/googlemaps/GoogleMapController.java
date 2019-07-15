@@ -44,6 +44,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /** Controller of a single GoogleMaps MapView instance. */
 final class GoogleMapController
@@ -237,7 +239,7 @@ final class GoogleMapController
       {
         if (googleMap != null) {
           LatLng latLng = googleMap.getProjection().fromScreenLocation(Convert.toPoint(call.argument("point"), density));
-          result.success(Convert.toLatLng(latLng));
+          result.success(Convert.latLngToJson(latLng));
         } else {
           result.error(
                   "GoogleMap uninitialized",
@@ -250,7 +252,7 @@ final class GoogleMapController
       {
         if (googleMap != null) {
           Point point = googleMap.getProjection().toScreenLocation(Convert.toLatLng(call.argument("location")));
-          result.success(Convert.toPoint(point, density));
+          result.success(Arrays.asList(point.x, point.y));
         } else {
           result.error(
                   "GoogleMap uninitialized",
