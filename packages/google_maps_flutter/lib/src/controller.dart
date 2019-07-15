@@ -205,17 +205,25 @@ class GoogleMapController {
     return LatLngBounds(northeast: northeast, southwest: southwest);
   }
 
-  Future<LatLng> pointToLatLng() async {
+  Future<LatLng> pointToLatLng(Offset point) async {
     final Map<String, dynamic> latLng =
-    await channel.invokeMapMethod<String, dynamic>('map#pointToLatLng');
+    await channel.invokeMapMethod<String, dynamic>(
+      'map#pointToLatLng',
+      <String, dynamic>{
+        'point': [point.dx, point.dy],
+      },
+    );
     final LatLng latLngData = LatLng._fromJson(latLng);
 
     return latLngData;
   }
 
-  Future<Offset> latLngToPoint() async {
+  Future<Offset> latLngToPoint(LatLng location) async {
     final Map<String, dynamic> offset =
-    await channel.invokeMapMethod<String, dynamic>('map#latLngToPoint');
+    await channel.invokeMapMethod<String, dynamic>(
+      'map#latLngToPoint',
+      location._toJson()
+    );
     final Offset offsetData = Offset(offset[0], offset[1]);
 
     return offsetData;

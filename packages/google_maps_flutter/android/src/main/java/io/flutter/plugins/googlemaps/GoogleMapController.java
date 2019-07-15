@@ -235,7 +235,7 @@ final class GoogleMapController
       case "map#pointToLatLng":
       {
         if (googleMap != null) {
-          LatLng latLng = googleMap.getProjection().fromScreenLocation(Convert.toPoint(call.argument("point")));
+          LatLng latLng = googleMap.getProjection().fromScreenLocation(Convert.toPoint(call.argument("point", density)));
           result.success(Convert.toLatLng(latLng));
         } else {
           result.error(
@@ -249,7 +249,7 @@ final class GoogleMapController
       {
         if (googleMap != null) {
           LatLng latLng = googleMap.getProjection().toScreenLocation(Convert.toLatLng(call.argument("point")));
-          result.success(Convert.toPoint(latLng));
+          result.success(Convert.toPoint(latLng, density));
         } else {
           result.error(
                   "GoogleMap uninitialized",
