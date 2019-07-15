@@ -206,8 +206,8 @@ class GoogleMapController {
   }
 
   Future<LatLng> pointToLatLng(Offset point) async {
-    final List<dynamic> latLng =
-    await channel.invokeMethod<List<dynamic>>(
+    final List<double> latLng =
+    await channel.invokeMethod<List<double>>(
       'map#pointToLatLng',
       <String, dynamic>{
         'point': [point.dx, point.dy],
@@ -219,8 +219,8 @@ class GoogleMapController {
   }
 
   Future<Offset> latLngToPoint(LatLng location) async {
-    final List<dynamic> offset =
-    await channel.invokeMethod<List<dynamic>>(
+    final List<double> offset =
+    await channel.invokeMethod<List<double>>(
       'map#latLngToPoint',
       <String, dynamic>{
         'location': location._toJson()
