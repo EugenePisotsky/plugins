@@ -218,6 +218,10 @@ class GoogleMapController {
     return latLngData;
   }
 
+  Offset _offsetFromJson(dynamic json) {
+    return Offset(json[0], json[1]);
+  }
+
   Future<Offset> latLngToPoint(LatLng location) async {
     final List<dynamic> offset =
     await channel.invokeListMethod<dynamic>(
@@ -226,7 +230,7 @@ class GoogleMapController {
         'location': location._toJson()
       }
     );
-    final Offset offsetData = Offset(offset[0], offset[1]);
+    final Offset offsetData = _offsetFromJson(offset);
 
     return offsetData;
   }
