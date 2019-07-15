@@ -12,6 +12,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 
 /** Controller of a single Marker on the map. */
 class MarkerController implements MarkerOptionsSink {
@@ -67,9 +68,12 @@ class MarkerController implements MarkerOptionsSink {
 
   @Override
   public void setAnimatedAnchor(final float pu, final float pv, final float u, final float v, final float duration) {
+    Interpolator customInterpolator = PathInterpolatorCompat.create(0.250, 0.460, 0.450, 0.940);
+
     ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
     valueAnimator.setDuration((long) (duration * 1000));
-    valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+    // valueAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+    valueAnimator.setInterpolator(customInterpolator);
 
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
