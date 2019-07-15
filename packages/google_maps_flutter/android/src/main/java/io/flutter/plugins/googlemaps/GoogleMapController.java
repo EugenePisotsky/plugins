@@ -232,6 +232,32 @@ final class GoogleMapController
           }
           break;
         }
+      case "map#pointToLatLng":
+      {
+        if (googleMap != null) {
+          LatLng latLng = googleMap.getProjection().fromScreenLocation(Convert.toPoint(call.argument("point")));
+          result.success(Convert.toLatLng(latLng));
+        } else {
+          result.error(
+                  "GoogleMap uninitialized",
+                  "getVisibleRegion called prior to map initialization",
+                  null);
+        }
+        break;
+      }
+      case "map#latLngToPoint":
+      {
+        if (googleMap != null) {
+          LatLng latLng = googleMap.getProjection().toScreenLocation(Convert.toLatLng(call.argument("point")));
+          result.success(Convert.toPoint(latLng));
+        } else {
+          result.error(
+                  "GoogleMap uninitialized",
+                  "getVisibleRegion called prior to map initialization",
+                  null);
+        }
+        break;
+      }
       case "camera#move":
         {
           final CameraUpdate cameraUpdate =
