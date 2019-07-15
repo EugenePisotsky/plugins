@@ -235,7 +235,7 @@ final class GoogleMapController
       case "map#pointToLatLng":
       {
         if (googleMap != null) {
-          LatLng latLng = googleMap.getProjection().fromScreenLocation(Convert.toPoint(call.argument("point", density)));
+          LatLng latLng = googleMap.getProjection().fromScreenLocation(Convert.toPoint(call.argument("point"), density));
           result.success(Convert.toLatLng(latLng));
         } else {
           result.error(
