@@ -6,6 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:quick_actions/quick_actions.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   QuickActions quickActions;
   final List<MethodCall> log = <MethodCall>[];
 
@@ -54,5 +56,17 @@ void main() {
         isMethodCall('clearShortcutItems', arguments: null),
       ],
     );
+    log.clear();
+  });
+
+  test('runLaunchAction', () {
+    quickActions.runLaunchAction(null);
+    expect(
+      log,
+      <Matcher>[
+        isMethodCall('getLaunchAction', arguments: null),
+      ],
+    );
+    log.clear();
   });
 }
