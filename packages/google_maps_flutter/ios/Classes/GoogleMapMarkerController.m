@@ -95,7 +95,7 @@ static void InterpretAnimatedAnchor(id<FLTGoogleMapMarkerOptionsSink> sink, NSDi
     [CATransaction setValue:[NSNumber numberWithFloat:duration] forKey:kCATransactionAnimationDuration];
     [CATransaction setCompletionBlock:^{
     }];
-    
+    [_marker setGroundAnchor:NEW_LOCATION_COORDINATES];
     _marker.groundAnchor = anchor;
     [CATransaction commit];
 }
